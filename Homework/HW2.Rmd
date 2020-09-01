@@ -1,0 +1,44 @@
+---
+title: "HW2"
+author: "Eric Winans"
+date: "9/1/2020"
+output: html_document
+---
+
+## Part a)
+
+
+
+## Part b)
+
+Create a vector that goes from 1 to 100 and calculates the average of it WITHOUT using the R function “mean”.
+
+```{r}
+vector <- (1:100)
+vector
+```
+
+```{r}
+s <- sum(vector)
+s
+```
+
+```{r}
+l <- length(vector)
+l
+```
+
+```{r}
+average <- s/l
+average
+```
+
+
+## Part c)
+
+Install the package “dplyr”.
+
+```{r}
+install.packages("dplyr")
+```
+
