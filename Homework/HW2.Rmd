@@ -42,9 +42,11 @@ Install the package “dplyr”.
 install.packages("dplyr")
 ```
 
+
 ```{r}
 row_1 <- c("A", "B", "C", "D")
 row_2 <- c("D", "E", "F", "G")
 data_frame <- data.frame(row_1, row_2)
 ```
+
 
