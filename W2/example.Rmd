@@ -1,0 +1,22 @@
+---
+title: "example.Rmd"
+author: "Eric Winans"
+date: "9/2/2020"
+output: html_document
+---
+
+R script
+```{r}
+dir()
+```
+
+Bash script
+```{bash}
+ls
+```
+
+Python script
+```{python}
+import glob
+```
+
