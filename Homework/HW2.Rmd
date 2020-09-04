@@ -5,6 +5,7 @@ date: "9/1/2020"
 output: html_document
 ---
 
+#Question 2
 ## Part a)
 
 show the step-by-step how to solve the following system of equations in R (Use R chunks to run each part). 
@@ -22,7 +23,7 @@ solution_vector <- matrix(c(33,19), nrow =2)
 ```
 
 ```{r}
-values <- solve(A,b)
+values <- solve(coeffictient_matrix,solution_vector)
 ```
 
 ANSWER: x = 4, y = 5
@@ -61,11 +62,11 @@ Install the package “dplyr”.
 install.packages("dplyr")
 ```
 
-
+# Question 3
+create a data frame of two rows with A, B, C, and D in row 1 and D, E, F, and G in row 2.
 ```{r}
-row_1 <- c("A", "B", "C", "D")
-row_2 <- c("D", "E", "F", "G")
-data_frame <- data.frame(row_1, row_2)
+data_fram <- data.frame(matrix(c("A", "B", "C", "D", "D", "E", "F", "G"), nrow = 2, byrow = TRUE))
+data_fram
 ```
 
 
