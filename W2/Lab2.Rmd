@@ -1,0 +1,96 @@
+---
+title: "Data Structure"
+author: "Eric Winans"
+date: "9/4/2020"
+output: html_document
+---
+
+# Homogenous dat structure
+## variable
+There is no scalar, but a vector of lenght one
+```{r}
+A <- 10
+A
+```
+
+## vector (1D)
+```{r}
+B <- c(1, 2, 3, 4, 5)
+B
+B2 <- c(A, A)
+B2
+```
+
+## matrix (2D)
+```{r}
+C <- matrix(data = 1:10, ncol = 5, nrow = 2)
+C3 <- matrix(data = 1:10, 5, 2)
+C2 <- cbind(B2, B2)
+colnames(C2) <- c("A", "B")
+C2
+colnames(C2) <- c("A2", "B2")
+C2
+```
+
+## array (nd)
+```{r}
+D <- array (1:20, dim = c(2, 5, 2))
+require(abind)
+library(abind)
+#abind(C2, C2, along = 2)
+D
+```
+
+
+# Heterogeneous data structure
+
+## data.frame (2D)
+```{r}
+#system("say data frames!")
+E <- data.frame(matrix(1:10, 2, 5))
+E
+E2 <- data.frame(
+  id = c(1:5),
+  name = c("Rick", "Dan", "Michelle", "Ryan", "Gary"),
+  salary = c(623.3, 515.2, 611.0, 729.0, 843.25)
+)
+E2
+E2$name
+E2$dept <- c("IT", "Opertions", "IT", "HR", "Finance")
+E2
+E2 <- cbind(E2, rep = c("IT", "Operations", "IT", "HR", "Finance"))
+E2
+finaldata <- rbind(E, E)
+names(E2) <- c('ID', 'items', 'store', 'price', 'other_name')
+print(summary(E2))
+colnames(E2)
+rownames(E2)
+```
+
+## list (1D)
+```{r}
+ABCDE <- list (A, B, C, D, E)
+ABCDE
+names(ABCDE) <- c("list_1")
+
+F <- list("Red", "Gree", c(21, 32, 11), TRUE, 51.23, 119.1)
+#recursive
+
+Z <- list(list(list(list())))
+print(Z)
+
+ABSDE <- list(ABCDE = list(A, B, C, D, E), list(A, E))
+
+ABCDE$ABCDE
+
+ABCDE[2] <- NULL
+
+merged_list <- c(ABCDE, A)
+
+x <- list(2.5, TRUE, 1:3)
+x[3]
+x[[3]]
+x[[3]][1]
+
+```
+
