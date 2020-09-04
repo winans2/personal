@@ -7,7 +7,6 @@ output: html_document
 
 #Question 2
 ## Part a)
-
 show the step-by-step how to solve the following system of equations in R (Use R chunks to run each part). 
 
       2x + 5y = 33
@@ -16,48 +15,25 @@ show the step-by-step how to solve the following system of equations in R (Use R
 
 ```{r}
 coeffictient_matrix <- matrix(c(2,5,1,3), nrow = 2, byrow = TRUE)
-```
-
-```{r}
 solution_vector <- matrix(c(33,19), nrow =2)
-```
-
-```{r}
 values <- solve(coeffictient_matrix,solution_vector)
 ```
-
 ANSWER: x = 4, y = 5
 
 
 ## Part b)
-
 Create a vector that goes from 1 to 100 and calculates the average of it WITHOUT using the R function “mean”.
-
 ```{r}
 vector <- (1:100)
-vector
-```
-
-```{r}
 s <- sum(vector)
-s
-```
-
-```{r}
 l <- length(vector)
-l
-```
-
-```{r}
 average <- s/l
 average
 ```
-
+ANSWER: 50.5
 
 ## Part c)
-
 Install the package “dplyr”.
-
 ```{r}
 install.packages("dplyr")
 ```
