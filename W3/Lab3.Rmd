@@ -1,0 +1,114 @@
+---
+title: "Functions"
+author: "Eric Winans"
+date: "9/11/2020"
+output: html_document
+---
+
+# What is a function?
+A function is a set of organized statements used to conduct a specific task. R has a large number of built-in functions and the user can create their own functions.
+
+*  __Function Name__
+
+*  __Function Body__ - The function body contains a collection of statement that defines what the function does
+
+*  __Return Value__ - The return value of a function is the last expression in the function body to be evaluated
+
+
+```{r}
+temp_F <- 72
+base_temp <- 32
+
+fahrenhite_to_celsius <- function(temp_F) {
+  temp_C <- (temp_F - base_temp) * 5 / 9
+  return(temp_C)
+}
+```
+
+# Environment
+
+```{r eval=FALSE}
+# Global Environment
+ temp_F
+# Scope of the function
+ temp_C
+ 
+ mean <- function(arg){
+   x <- sum(arg)
+   return(x)
+ }
+```
+
+# Lazy Evaluation of Function
+```{r eval=FALSE}
+new_function <- function(a, b) {
+  print(a^2)
+  print(a)
+  princomp(b)
+}
+# Evaluate the function without supplying one of the arguments
+new_function(b = 6, a = 1000)
+```
+
+# create a function with default values
+```{r}
+display <- function(a = 1, b = 20, c = 3){
+  result <- c(a, b, c)
+  names(result) <- c("a", "b", "c")
+  return(result)
+}
+
+# no arguments
+display()
+
+input_1 <- 20
+mySum <- function(input_1, input_2 = 10) {
+  output <- input_1 + input_2
+  return(output)
+}
+mySum(input_1 = 1)
+```
+
+```{r}
+# Anonymous function syntax
+(function(x) x *10)(10)
+```
+
+```{r}
+pow <- function(x, y) {
+  # function to print x raised to the power y
+  result <- x^y
+  print(paste(x,"raised to the power", y, "is", result))
+}
+pow(x = 2, y = 5)
+```
+
+
+#Implementing math in R
+
+$$\mathrm{Var}(x) = \frac{1}{n - 1} \sum_{i=1}^n (x_i - \bar{x}) ^2 \text{,}$$
+
+
+```{r}
+a <- 1:10
+var(a)
+
+(1 / 9) * ((a - mean(a)) ^2)
+
+b <- 20:30
+
+my_var <- function(vector){
+  r1 <- 1 / (length(vector) - 1)
+  r2 <- (vector - mean(vector))^2
+  r1 * sum(r2)
+  final <- r1 * sum(r2)
+  
+  x <- 10
+  return(list(final = final, x = x))
+}
+my_var(a)
+my_var(b)
+```
+
+
+
