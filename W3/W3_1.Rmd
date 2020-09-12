@@ -1,0 +1,84 @@
+---
+title: "Subsetting"
+author: "Eric Winans"
+date: "9/12/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+Subsetting a vector
+```{r}
+v1 <- c("Rick", "Dan", "Michelle", "Ryan", "Gary")
+names(v1)
+#names, not colnames!
+names(v1) <- c("Rick", "Dan", "Michelle", "Ryan", "Gary")
+v1
+v1["Dan"]
+v1[2]
+```
+
+
+Subsetting a matrix
+```{r}
+C <- matrix(data = 1:10,
+            ncol = 5,
+            nrow = 2,)
+colnames(C) <- c("Rick", "Dan", "Michelle", "Ryan", "Gary")
+C
+C[2, 3] #row 2 column 3
+C[2, "Michelle"]
+#C[4,]  #row 4 doesnt exist
+C[, 4]
+C[, -2]
+C[, c(T, F, F, T, F)]
+C[, !c(T, F, F, T, F)] #does opposit of line above
+colnames(C) == "Rick" 
+C[1, colnames(C) == "Rick"] <- 101
+C
+colnames(C) == c("Dan", "Rick", "Ryan", "Michelle", "Gary")
+colnames(C) == c("Dan", "Gary")
+colnames(C) %in% c("Dan", "Rick", "Ryan", "Michelle", "Gary")
+index <- colnames(C) %in% c("Dan", "Gary")
+C[, !index]
+C[C[, "Rick"] > 2,]
+```
+
+
+Built-in Data Sets (data.frames in general) and subsetting a data.frame
+```{r}
+data()
+data("iris")
+nrow(iris)
+ncol(iris)
+data("mtcars")
+head(mtcars, 6)
+
+mtcars[c("cyl", "disp", "hp")]
+mtcars[c(1, 5:7)]
+
+#Avoid if possible
+attach(mtcars)
+index2 <- which(mpg > 20)
+mtcars[index2,]
+detach(mtcars)
+```
+
+Subsetting list
+```{r}
+class(mtcars)
+is.matrix(mtcars)
+is.data.frame(mtcars)
+is.list(mtcars)
+
+mtcars <- as.list(mtcars)
+mtcars[1]
+mtcars["mpg"]
+mtcars$mpg
+mtcars[[1]]
+mtcars[["mpg"]]
+```
+
