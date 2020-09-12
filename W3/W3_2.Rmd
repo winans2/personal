@@ -1,0 +1,49 @@
+---
+title: "Input/Output"
+author: "Eric Winans"
+date: "9/12/2020"
+output: html_document
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+#Input/Output data into R
+
+```{r cars}
+getwd()
+setwd("C:/Users/winans2/Documents/Classes/CPSC 441 R Programing/personal/W3")
+list.files()
+dir()
+i1 <- scan()
+i1
+i2 <- readline()
+i2
+
+data <- read.csv("N Sidedress Data.csv", header = TRUE) #can just name a doc inside home directory, or provide a new path
+data2 <- read.table("N Sidedress Data.csv", header = TRUE, sep = ",")
+
+
+library(data.table)
+data3 <- fread("N Sidedress Data.csv") #faster than read.table
+
+new_data <- data[1:10,]
+
+write.table(x = new_data, file = "my_file.txt")
+fwrite(data, file = "my_file2.txt", sep = "-")
+
+tbl <- read.csv("http://www.example.com/dowload/data.csv")
+
+
+library(readr)
+N_side <- read_csv("N Sidedress Data.csv")
+View(N_side)
+```
+
+```{r}
+save(new_data , file = "image.RData")
+rm(new_data)
+load("~/Classes/CPSC 441 R Programing/personal/W3/image.RData")
+```
+
+
