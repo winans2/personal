@@ -1,0 +1,43 @@
+---
+title: "Homework 3"
+author: "Eric Winans"
+date: "9/12/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+1) Write a function to calculate the mean.
+```{r}
+average <- function(a) {
+  calculat_mean <- mean(a, na.rm = TRUE)
+  return(calculat_mean)
+}
+
+average(a = 0:10)
+```
+
+
+Download the following dataset and use it for questions 2-4: https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-09-01/key_crop_yields.csv
+```{r}
+hw3_data <- read.csv("https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-09-01/key_crop_yields.csv")
+```
+
+2) The range (first and last) of the variable Year.
+```{r}
+range(hw3_data$Year)
+#Answer: [1] 1961 2018
+```
+
+3) Using the function from #1, calculate the mean of the variable "Maize (tonnes per hectare)".  TIP: When there is missing data (NA), the functions mean, sum, and others, will result in NA. The solution to obtain the desired result is either remove all NAs or use the option na.rm = TRUE (see "?sum").
+```{r}
+average(a = hw3_data$Maize..tonnes.per.hectare.)
+```
+
+4) Save a file with the variable named "Entity".
+```{r}
+data_Entity <- hw3_data$Entity
+save(data_Entity, file = "entity.RData")
+```
