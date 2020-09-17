@@ -1,0 +1,168 @@
+---
+title: "Control structures & Iteration"
+author: "Eric Winans"
+date: "9/16/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Control structures
+Control structures in R allow you to control the flow of execution of a series of R expressions. I other words, you may not want to execute a line of code unless another condition is first satisfied
+
+## 'if()'
+Test expression (condition), if true then execute code, if false skip to the next step
+```{r}
+x <- 4
+if (x > 3) {
+  print("Yes!")
+}
+x <- 1
+if (x > 3) {
+  print("Yes!")
+}
+```
+
+## 'if()...else'
+If expression is true, we execute code.  If false, we execute a different part of the code.
+```{r}
+x <- 1
+if (x > 3) {
+  print("Yes!")
+} else {
+  print("No!")
+}
+```
+
+## 'ifelse()'
+Works in a vector
+```{r}
+x <- 1:5
+ifelse(x>3, "Yes!", "No!")
+
+ifelse(x > 3, x[1] + x[2], sum(x))
+```
+
+## 'switch()'
+```{r}
+type <- "maybe"
+
+if (type == "yes") {
+  print("Yes!")
+} else if (type == "no") {
+  print("No!")
+} else {
+  print("Maybe")
+}
+
+switch(
+  type,
+  yes = print("Yes!"), #don't need quotes, because already interpreted as char
+  no = print("No!"),
+  maybe = print("Maybe")
+)
+
+```
+
+
+# Iteration
+
+Iteration is at the hear of programing!
+Some iteration methods in R:
+
+- 'for()', 'while()', 'repeat()'  loops: standard loop constructs
+- Vectorization: use it whenever possible! often faster and simpler
+- 'apply()' family of functions: alternative to 'for()' loop, these are built-in R functions
+
+# 'for()'
+
+The 'for' loop is used to execute repetitive code statments for a particular number of tiimes.
+
+```{r, eval=FALSE}
+# syntax of for loop 
+for (i in 1:100) {
+  <do stuff here with i>
+}
+```
+
+```{r, collapse=TRUE}
+m1 <- matrix(NA, nrow = 2, ncol = 3)
+m1[1, 1] <- 1 + 1
+m1[2, 1] <- (1 + 1) * 2
+
+m1[1, 2] <- 1 + 2
+m1[2, 2] <- (1 + 2) * 2
+
+m1[1, 3] <- 1 + 3
+m1[2, 3] <- (1 + 3) * 2
+
+m2 <- matrix(NA, nrow = 2, ncol = 100)
+value <- 1 
+for (i in 1:ncol(m2)) {
+  m2[1, i] <- value + i
+  m2[2, i] <- (value + i) * 2
+}
+m1
+m2
+```
+
+# 'while()'
+While loops begin by testing a conditions. If it is true, then they execute the statemtn. Once the statement is executed, the conditions is tested again, and so forth, until the condition is false, after which the loop exits.
+
+```{r}
+# syntax of while loop
+i <- 1
+while (test_expression) {
+  statement
+  i <- i + 1
+}
+```
+
+'while' loops can potentially result in infinite loops if not written properly!
+
+```{r, eval=FALSE}
+counter <- 1
+while (counter < 10) {
+  print(counter)
+}
+```
+
+```{r, eval=FALSE}
+counter <- 1
+while (counter <= 10) {
+  print(counter)
+  counter <- counter + 1
+}
+
+# this for loop provides the same output
+counter  <- 1:10
+for (i in counter) {
+  print(i)
+}
+```
+
+# 'repeat()'
+A 'repeat' loop is used to iterate over a block of code multiple number of times
+
+```{r, eval=FALSE}
+# suntax of repeat loop
+counter <- 1
+
+repeat {
+  statement
+  
+  if (test_expression) {
+    break
+  }
+  counter <- counter + 1
+}
+```
+
+For example, say we want to randomly draw values from a uniform distribution between 1 and 25. Furthermore, we want to continue to draw values randomly until our sample contains at least each integer value between 1 and 25; however, we do not care if we've drawn a particular value multiple times. The following code repeats the random draws of values between 1 and 25 (in which we round). We then include an 'if' statement to check if all values between 1 and 25 are present in our sample. If so, we use the ['break'](#break) statement to exit the loop. If not, we ad to our counter and et the loop repeat until the conditional 'if' statement is found to be true. We can then check the 'counter' object to assess how many iterations were required to reach our conditional requirement. 
+```{r, collapse=TRUE}
+counter <- 
+
+```
+
