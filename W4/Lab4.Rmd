@@ -1,0 +1,140 @@
+---
+title: "Lab4"
+author: "Eric Winans"
+date: "9/18/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+#Loops and Vectorizatoin
+
+```{r}
+vector1 <- runif(100)
+vector2 <- runif(100)
+matrix1 <- cbind(vector1, vector2)
+r1 <- c()
+for(i in 1:100){
+  r1[i] <- matrix1[i,1] + matrix1[i, 2]
+  print(i)
+}
+
+matrix2 <- matrix(NA, 100, 10)
+matrix3 <- matrix(NA, 1, 10)
+for(i in 3:100) {
+  for (j in 1:10) {
+    matrix2[i, j] <- rnorm(1)
+    ex1 <- rnorm(10)
+    matrix3 <- rbind(matrix3, rnorm(10))
+  }
+}
+```
+
+__The apply family__:
+[s,l,m,r,t,v]apply: nothing but a loop internally
+
+```{r}
+#apply(X, MARGIN, FUN, ...)
+r2 <- apply(matrix1, 1, sum)
+body(apply)
+```
+
+```{r}
+#apply(FUN, ..., MoreArgs = NULL, SIMPLIFY = TRUE, USE.NAMES = TRUE)
+r3 <- mapply(sum, vector1, vector2)
+```
+
+```{r}
+#lapply(X, FUN, ...)
+lapply(as.list(vector1), function(a){ paste("printing number:", a)})
+#sapply(X, FUN, ..., simplify = TRUE, USE.NAMES = TRUE)
+sapply(vector1, function(x){ paste("printing number:", x)})
+```
+
+```{r}
+data("iris")
+#tapply(X, INDEX, FUN = NULL, ..., default = NA, simplify = TRUE)
+tapply(iris$Sepal.Length, iris$Species, mean)
+```
+
+# Vectorization
+
+```{r}
+r4 <- vector1 + vector2
+
+all(r1==r2 & r3==r4)
+all.equal(r1, r2, r3, r3)
+```
+
+
+# Profiling R code
+
+Make our code to run faster, but only after having it well designed!
+
+True: for example, preallocating memory can speed things up
+Fals: apply functions are inherently faster than for loops
+
+Suppose you make a loop run 5 times faster. That sounds like a huge improvement, but if that loop only takes 10% or the total time, it's stil only a 8% speedup overall. To make slow code faster, we need accurate information about what is making our code slow. 
+
+```{r}
+my_for <- function(matrix1) {
+  for (i in 1:100) {
+    r1[i] <- matrix1[i, 1] + matrix1[i, 2]
+  }
+  return(r1)
+}
+
+my_apply <- function(matrix1) {
+  return(apply(matrix1, 1, sum))
+}
+
+system.time(my_for(matrix1))
+
+system.time(my_apply(matrix1))
+
+system.time(r4 <- vector1 + vector2)
+```
+
+```{r}
+install.packages("microbenchmark")
+library(microbenchmark)
+microbenchmark::microbenchmark(my_for(matrix1), 
+                               my_apply(matrix1),
+                               {r4 <- vector1 + vector2},
+                               times = 100)
+```
+
+
+```{r}
+install.packages("profvis")
+library(profvis)
+profvis({
+  data(diamonds, package = "ggplot2")
+  plot(price ~ carat, data = diamonds)
+  m <- lm(price ~ carat, ddata = diamonds)
+  abline(m, col = "red")
+})
+
+times <- 4e5
+cols <- 150
+data <- 
+  as.data.frame(x = matrix(rnorm(times * cols, mean = 5),
+                           ncol = cols))
+data <- cbind(id = paste0("g", seq_len(times)), data)
+
+profvis({
+  #store in another variable for this run
+  data1 <- data
+  
+  #get colum means
+  means <- apply(data1, margin, ...)
+  # Subtract mean from each column
+  for (i in seq_along(means)) {
+    data1[, names(data1) != "id"][, i] <- 
+      data1[, names(data1) != "id"][, i] - means[i]
+  }
+})
+```
+
