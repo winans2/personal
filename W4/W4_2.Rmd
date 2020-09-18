@@ -1,0 +1,88 @@
+---
+title: "regex"
+author: "Eric Winans"
+date: "9/17/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Strings
+In R, there's no fundamental distinction between a string and a character. A "string" is just a character variable that contains one or more characters.
+
+```{r}
+string1 <- c("This", "is", "a string")
+string2 <- 'If I want to include a "quote" inside a string, I use singe quotes'
+length(string1)
+length(string2)
+nchar(string1)
+nchar(string2)
+
+vector_of_strings <- c(" A", "B", "CAR")
+nchar(vector_of_strings)
+```
+
+# regex
+
+A "regular expressions" is a pattern that describes a set of strings.
+
+The most common R functions for dealing with regular expressions are: 'grep()', 'grepl()', 'regexpr()', 'gregexpr()', 'sub()', and 'gsub()'
+
+```{r}
+numbers1 <- c("one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten")
+numbers2 <- c("one two three four five six seven eight nine ten")
+#is five present?
+numbers1 == "five"
+grepl("five", numbers1)
+any(numbers1 == "five")
+all(numbers1 == "five")
+
+#where is five?
+which(numbers1 == "five")
+grepl("five", numbers1)
+
+numbers2 == "five"
+grepl("five", numbers2)
+grep("five", numbers2)
+
+#more complex situations
+strings <- c("abcd", "cdabe", "cabd", "c abd")
+
+grepl("ab", strings)
+regexpr("ab", strings)
+gregexpr("ab", strings)
+
+baby_shark <- read.delim("baby_shark.txt")
+
+#replace characters
+sub("oo", "zzzzzzzz", baby_shark)
+gsub("oo", "zzzzzzzz", baby_shark)
+
+#colapse
+paste(numbers1, collapse = ".")
+
+n1 <- c("A")
+n2 <- "B"
+n3 <- c("C", "D")
+
+paste(n1, n2, n3, sep = " ")
+paste(n1, n2, n3, collapse = " ")
+paste(n1, n2, paste(n3, collapse = " "), collapse = " ")
+paste0(n1, n2)
+
+#split
+strsplit(numbers2, " ")
+letters <- strsplit(numbers2, "")
+nchar(letters)
+
+#from list to vector
+unlist(strsplit(numbers2, " ", fixed = FALSE))
+
+
+
+gsub(".*k", "___", baby_shark) #replaces everything before letter k
+
+```
+
