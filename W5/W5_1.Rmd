@@ -1,0 +1,57 @@
+---
+title: "Data Manipulation"
+author: "Eric Winans"
+date: "9/24/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+This part of the course will be heavily based on the book [R For Data Science](https://r4ds.had.co.nz/). They also have a nice slack channel where people interact and help each other [r4ds slack channel](https://rfordatascience.slack.com/join/shared_invite/zt_fehdgdo3-mQK182iIk5Q7TIAy58Vgeg#/).
+
+This chapter could also be names 'tidyverse', since this package will facilitate our work in manipulating and visualizing our dta.
+
+```{r, eval=FALSE}
+install.packages("tidyverse")
+```
+```{r}
+library(tidyverse)
+```
+
+```{r}
+#install.packages("nycflights13")
+library(nycflights13)
+flights
+as.data.frame(flights)
+```
+
+#Dplyr
+
+```{r}
+(sqrt(2) ^ 2) == 2
+near(sqrt(2) ^ 2, 2)
+x <- c(1, 2, 3, 4, 5, NA, 7)
+x[x=="NA"]
+x=="NA"
+is.na(x)
+```
+
+```{r}
+#subset January data
+flights[month == 1 & day == 1,]
+flights[flights$month == 1 & flights$day == 1,]
+
+#with dplyr
+jan1 <- filter(flights, month == 1, day == 1)
+(dec25 <- filter(flights, month == 12, day == 25))
+
+filter(flights, month == (11 | 12))
+nov_dec <- filter(flights, month %in% c(11, 12))
+filter(flights, !(arr_delay > 120 | dep_delay > 120))
+filter(flights, arr_delay <= 120, dep_delay <= 120)
+
+arrange(flights, year, month, day)
+```
+
