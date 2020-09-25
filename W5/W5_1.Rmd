@@ -47,11 +47,63 @@ flights[flights$month == 1 & flights$day == 1,]
 jan1 <- filter(flights, month == 1, day == 1)
 (dec25 <- filter(flights, month == 12, day == 25))
 
-filter(flights, month == (11 | 12))
+filter(flights, month == (11 | 12)) # doesnt work this way
+filter(flights, month == 11 | month == 12) #this is correct
 nov_dec <- filter(flights, month %in% c(11, 12))
-filter(flights, !(arr_delay > 120 | dep_delay > 120))
+delay <- filter(flights, !(arr_delay > 120 | dep_delay > 120))
 filter(flights, arr_delay <= 120, dep_delay <= 120)
 
-arrange(flights, year, month, day)
+#order rows
+ordered <- arrange(flights, (year & month), desc(day))
+
+#select only variables interest
+selected <- select(flights, year, month, day)
+selected2 <- select(flights, year:day)
+selected3 <- select(flights, -(year:day))
+renamed <- rename(flights, tail_num = tailnum)
+
+#add new variables
+flights2 <- mutate(flights,
+                   gain = dep_delay - arr_delay,
+                   speed = distance / air_time * 60,
+                   gain *  speed
+                   )
+
+#Grouped summaries
+by_day <- group_by(flights, year, month, day)
+#na.rm to remove NAs
+summarise(flights, delay = mean(dep_delay, na.rm = TRUE))
+summarise(by_day, delay = mean(dep_delay, na.rm = TRUE))
+
+#Combining multiple operations (PIPE)
+delays <- flights %>%
+  group_by(dest) %>%
+  summarise(
+    count = n(),
+    dist = mean(distance, na.rm = TRUE),
+    delay = mean(arr_delay, na.rm = TRUE)
+  ) %>%
+  filter(count > 20, dest != "ABQ")
+
+
+not_cancelled <- flights %>%
+  filter(!is.na(dep_delay), !is.na(arr_delay)) %>%
+  group_by(dest) %>%
+  summarise(
+    distance_sd = sd(distance),
+    avg_delay1 = mean(arr_delay),
+    avg_delay2 = mean(arr_delay[arr_delay > 0]), #the average positive delay
+    first = min(dep_time),
+    last = max(dep_time),
+    last_dep = last(dep_time)
+  ) %>%
+  arrange(desc(distance_sd))
+
+delays <-  not_cancelled %>%
+  group_by(dest) %>%
+             summarise(
+               delay = mean(avg_delay1, na.rm = TRUE),
+               n = n()
+             )
 ```
 
