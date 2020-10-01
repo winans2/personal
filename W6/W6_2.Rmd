@@ -1,0 +1,29 @@
+---
+title: "Graphs"
+author: "Eric Winans"
+date: "9/30/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Basic Plot in R
+
+```{r}
+height <- c(145, 167, 176, 180, 190)
+weight <- c(51, 63, 64, 40, 55)
+
+plot(height, weight)
+plot(height, weight, type = "l")
+plot(height, weight, type = "p")
+plot(height, weight, type = "o")
+plot(height, weight, type = "b")
+```
+
+**hist**(height) boxplot(height) plot(height
+
+```{r}
+
+```

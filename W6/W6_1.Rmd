@@ -1,0 +1,125 @@
+---
+title: "Week 6"
+author: "Eric Winans"
+date: "9/30/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Reading a large dataset
+Example data: https://soybase.org/snps/soysnp50k_wm82.a2_41317.correct.hmp.txt.gz
+(1.7GB uncompressed)
+
+```{r}
+library(data.table)
+library(tidyverse)
+```
+
+```{r, eval=FALSE}
+# Base
+system.time(base <- read.table("soysnp50k_wm82.a2_41317.correct.hmp.txt.gz", header = TRUE, comment.char = ""))
+
+# tidyverse
+system.time(tidyverse <- read_tsv("soysnp50k_wm82.a2_41317.correct.hmp.txt.gz", ))
+#write_tsv()
+
+#data.table
+system.time(data.table <- fread("soysnp50k_wm82.a2_41317.correct.hmp.txt.gz", data.table = FALSE))
+#fwrite()
+```
+
+# tidyr
+
+pivot_wider() and pivot_longer()
+
+Four dataset: country, year, population, and cases. Each data set organizes the values in a different way.
+```{r}
+# pivot_longer()
+table4a
+tidy4a <- table4a %>% 
+  pivot_longer(c('1999', '2000'), names_to = "year", values_to = "cases")
+
+table4b
+tidy4b <- table4b %>% 
+  pivot_longer(c('1999', '2000'), names_to = "year", values_to = "population")
+
+#pivot_wider()
+table2 %>% 
+  pivot_wider(names_from = type, values_from = count)
+
+```
+
+```{r}
+# *_join_
+# Inner join: common to both
+x <- tribble(
+  ~key, ~val_x,
+  1, "x1",
+  2, "x2",
+  3, "x3"
+)
+y <- tribble(
+  ~key, ~val_y,
+  1, "y1",
+  2, "y2",
+  4, "y3"
+)
+
+x %>% 
+  inner_join(y, by = "key")
+
+left_join(tidy4a, tidy4b)
+
+# inner_join(x, y) == merge(x, y)
+# left_join(x, y) == merge(x, y, all.x = TRUE)
+# right_join(x, y) == merge(x, y, all.y = TRUE)
+# full_join(x, y) == merge(x, y, all.x = TRUE, all.y = TRUE)
+
+# setdiff(x, y)
+x1 <- x %>% filter(key == 1)
+x2 <- setdiff(x, x1)
+
+# intersect(x, y)
+intersect(x, x1)
+
+# union(x, y)
+union(x1, x2)
+
+# seperate()
+table3 %>% 
+  separate(rate, into = c("cases", "population"), sep = "/", convert = TRUE)
+
+#works as an individual function without pipe
+separate(table3, rate, into = c("cases", "population"), sep = "/", convert = TRUE)
+
+# unite()
+table5 %>% 
+  unite(new, century, year, sep = "")
+```
+
+```{r}
+data("starwars")
+
+sw <- starwars %>% select(name:species)
+
+sw <- sw %>% 
+  select(-skin_color) %>% 
+  filter(height > 100) %>% 
+  arrange(desc(height), mass) %>% 
+  mutate(height = height / 100, hair_color = as.factor(hair_color)) %>% 
+  rename(BY = birth_year) %>% 
+  filter(!is.na(BY) & !is.na(gender)) %>% 
+  pivot_longer(cols = c(mass, height), names_to = "measure", values_to = "value") %>% 
+  pivot_wider(names_from = "measure", values_from = "value")
+
+sw1 <- sw %>% select(-(hair_color:sex)) %>% arrange(name)
+sw2 <- sw %>% select(-(gender:height))
+
+sw3 <- sw2 %>% inner_join(sw1, by = "name")
+
+all.equal(sw %>% arrange(name), sw3 %>% arrange(name))
+```
+
