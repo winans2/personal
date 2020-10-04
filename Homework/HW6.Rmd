@@ -14,20 +14,23 @@ Using the data flights from the package nycflights13, do the following:
 library(tidyverse)
 library(nycflights13)
 data("flights")
+head(flights)
 ```
 
 1- obtain the range, mean, and median of the variable “distance”.
 ```{r}
-(distance_range <- range(flights$distance))
-(distance_mean <- mean(flights$distance))
-(distance_median <- median(flights$distance))
+range(flights$distance)
+mean(flights$distance)
+median(flights$distance)
 ```
 
 
 2- combine the airlines (also available from nycflights13) with the flights data in a single file.
 ```{r}
 data("airlines")
+head(airlines)
 airline_flights <- merge(flights, airlines)
+head(airline_flights)
 ```
 
 
@@ -50,9 +53,20 @@ ggplot(airline_flights, aes(carrier, dep_delay)) +
 
 5- find what is the month with the highest arr_delay. Show this in a graph.
 ```{r}
-ggplot(airline_flights, aes(month, dep_delay)) +
+#When looking at all values within each month, January (1) contains the highest value for ar_delay
+ggplot(airline_flights, aes(month, arr_delay)) +
   geom_point() +
-  scale_x_continuous(n.breaks = 12) +
-  stat_summary(fun= "mean", geom = "point", fill = "red", pch = 23, size = 2)
+  scale_x_continuous(n.breaks = 12)
+```
+
+```{r}
+#When plotting the average of arr_delay for each month, July (7) has the highest average arr_delay.
+mean_arr_delay <- airline_flights %>% 
+  group_by(month) %>% 
+  summarise(mean_arr_delay = mean(arr_delay, na.rm = TRUE))
+
+ggplot(mean_arr_delay, aes(month, mean_arr_delay)) +
+  geom_col() +
+  scale_x_continuous(n.breaks = 12)
 ```
 
